@@ -39,7 +39,7 @@ with open(file_to_load) as financial_data:
         # Track the net change
         current_net = int(row[1])
         total_net += current_net
-        net_change = current_net - previous_net
+        net_change = int(current_net - int(previous_net))
         net_change_list.append(net_change)
         previous_net = current_net
         # Calculate the greatest increase in profits (month and amount)
@@ -54,13 +54,18 @@ with open(file_to_load) as financial_data:
 avg_change = sum(net_change_list) / len(net_change_list)
 
 # Generate the output summary
-print("Financial Analysis")
-print("-------------------")
-print(f'Total Months: {total_months}')
-
+analysis_summary = (
+f"Financial Analysis\n"
+f"---------------------\n"
+f"Total Months: {total_months}\n"
+f"Total: ${total_net}\n"
+f"Average Change: ${avg_change:.2f}\n"
+f"Greatest Increace in Profits: {grtst_inc[0]} (${grtst_inc[1]})\n"
+f"Greatest Decrease in Losses: {grtst_dec[0]} (${grtst_dec[1]})\n"
+)
 # Print the output
-
+print(analysis_summary)
 
 # Write the results to a text file
 with open(file_to_output, "w") as txt_file:
-    txt_file.write(output)
+    txt_file.write(analysis_summary)
